@@ -18,12 +18,12 @@ class Transaction2Screen extends StatefulWidget {
 }
 
 class _Transaction2ScreenState extends State<Transaction2Screen> {
+  TextEditingController amountController = TextEditingController();
+
   bool loading = false;
   File? image = File('');
   @override
   Widget build(BuildContext context) {
-    TextEditingController amountController = TextEditingController();
-
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
@@ -88,7 +88,7 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
                 height: 150.h,
               ),
               Text(
-                "Enter the number of litres",
+                "Enter the Total Amount ",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15.sp,
@@ -125,24 +125,16 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
                         color: Color.fromRGBO(255, 99, 25, 1), width: 1.w),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: Center(
-                    child: loading
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                              color: Color.fromRGBO(255, 99, 25, 1),
-                            ),
-                          )
-                        : Text(
-                            image!.path != ''
-                                ? 'The photo was taken'
-                                : 'Click here to take a photo',
-                            style: TextStyle(
-                              color: Color.fromRGBO(255, 99, 25, 1),
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w800,
-                            ),
+                  child: image != null && image!.path != ''
+                      ? Image.file(image!)
+                      : Text(
+                          'Click here to take a photo',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 99, 25, 1),
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w800,
                           ),
-                  ),
+                        ),
                 ),
               ),
               Spacer(),
@@ -166,8 +158,14 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
                       color: Color.fromRGBO(255, 99, 25, 1)),
-                  child: Center(
-                    child:  Text(
+                  child: loading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : Center(
+                          child: Text(
                             'send',
                             style: TextStyle(
                               color: Colors.white,
@@ -175,7 +173,7 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                  ),
+                        ),
                 ),
               ),
             ],

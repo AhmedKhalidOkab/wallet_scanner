@@ -9,7 +9,10 @@ import 'package:wallet_scanner/presentaions/transaction_screen.dart';
 
 class PointsScreen extends StatefulWidget {
   PointsScreen(
-      {super.key, required this.name, required this.points, required this.phone});
+      {super.key,
+      required this.name,
+      required this.points,
+      required this.phone});
   String name;
   int points;
   String phone;
@@ -160,7 +163,7 @@ class _PointsScreenState extends State<PointsScreen> {
               SizedBox(
                 height: 20.h,
               ),
-              gasContainer(name: 'Gasoline 92'),
+              gasContainer(name: 'Gasoline 95'),
             ],
           ),
         ),
@@ -172,8 +175,10 @@ class _PointsScreenState extends State<PointsScreen> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) =>Transaction2Screen(phone:widget.phone ,name: name,) 
-                ));
+            builder: (BuildContext context) => Transaction2Screen(
+                  phone: widget.phone,
+                  name: name,
+                )));
       },
       child: Container(
         height: 40.h,
@@ -229,5 +234,3 @@ class _PointsScreenState extends State<PointsScreen> {
   //   });
   // }
 }
-
-

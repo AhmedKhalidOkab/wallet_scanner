@@ -60,7 +60,8 @@ class _MyAppState extends State<MyApp> {
                                   setState(() {
                                     print('${code}==========');
 
-                                    scanTogetClientProfile(id: 120);
+                                    scanTogetClientProfile(
+                                        id: "$code", context: context);
                                   });
                                 });
                           },
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
                                 ),
                                 child: Center(
                                     child: Text(
-                                  "Scan To Send Balance",
+                                  "Scan Wallet",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 22.sp,
@@ -90,17 +91,16 @@ class _MyAppState extends State<MyApp> {
                       ),
                       InkWell(
                           borderRadius: BorderRadius.circular(10.r),
-                          onTap: () {  
+                          onTap: () {
                             _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
                                 context: context,
                                 onCode: (code) {
                                   setState(() {
                                     print('${code}==========');
-                                      scanTogetClientProfile(id: 120,pointsScreen: true);
-                                  
-                                
-                                 
-                                 
+                                    scanTogetClientProfile(
+                                        id: "$code",
+                                        pointsScreen: true,
+                                        context: context);
                                   });
                                 });
                           },
@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
                                 ),
                                 child: Center(
                                     child: Text(
-                                  "Scan To Get Points",
+                                  "Scan Points",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 22.sp,
@@ -134,7 +134,10 @@ class _MyAppState extends State<MyApp> {
         });
   }
 
-  Future<void> scanTogetClientProfile({required int id,bool pointsScreen=false}) async {
+  Future<void> scanTogetClientProfile(
+      {required BuildContext context,
+      required String id,
+      bool pointsScreen = false}) async {
     var data = FormData.fromMap({
       'id': id,
     });
@@ -144,29 +147,32 @@ class _MyAppState extends State<MyApp> {
             data: data)
         .then((value) {
       setState(() {
-        value.data["status"] == true && value.data["clients"] != null
+        value.data["status"] == true
             ? setState(() {
                 print(
-                    '${value.data["clients"]["id"]}==========================');  
-             pointsScreen==false ?  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => WalletScreen(
-                          balance: value.data["clients"]["wallet_balance"],
-                          name: value.data["clients"]["name"],
-                          id: value.data["clients"]["id"],
-                        ))):  Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                PointsScreen(
-                                          name:value.data["clients"]["name"] ,phone: value.data["clients"]["phone"],points: value.data["clients"][ "points"]
-                                                )));
+                    '${value.data["clients"]["id"]}==========================');
+                pointsScreen == false
+                    ? Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => WalletScreen(
+                              balance: value.data["clients"]["wallet_balance"],
+                              name: value.data["clients"]["name"],
+                              id: value.data["clients"]["id"],
+                            )))
+                    : Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => PointsScreen(
+                            name: value.data["clients"]["name"],
+                            phone: value.data["clients"]["phone"],
+                            points: value.data["clients"]["points"])));
               })
-            : ShowToast(msg: "The selected user is invalid.", states: ToastStates.ERROR);
+            : ShowToast(
+                msg: "The selected user is invalid.",
+                states: ToastStates.ERROR);
       });
     }).catchError((onError) {
       setState(() {
         ClientProfileloading = false;
       });
-      ShowToast(msg: onError, states: ToastStates.ERROR);
+      ShowToast(msg: onError.toString(), states: ToastStates.ERROR);
       print('${onError.toString()}rrrrrrrrrrrrrrrrrrrrr');
     });
   }

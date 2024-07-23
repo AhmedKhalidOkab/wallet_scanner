@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,7 +86,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 height: 100.h,
               ),
               Text(
-                "Enter the number of litres",
+                "Enter the Total amount you want to deduct ",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15.sp,
@@ -119,7 +120,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     });
                   } else {
                     ShowToast(
-                        msg: "ادخل عدد اللترات", states: ToastStates.ERROR);
+                        msg: "Enter the Total amount Please !",
+                        states: ToastStates.ERROR);
                   }
                 },
                 child: Container(
@@ -136,7 +138,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                             ),
                           )
                         : Text(
-                            'ارسال',
+                            'Send',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 22.sp,
@@ -165,21 +167,47 @@ class _TransactionScreenState extends State<TransactionScreen> {
         loading = false;
       });
 
-      ShowToast(
-          msg: value.data["status"] == true &&
-                  value.data["message"] == "عملية التحويل تمت بنجاح"
-              ? 'The payment was successful'
-              : '${value.data["message"]}',
-          states: value.data["status"] == true &&
-                  value.data["message"] == "عملية التحويل تمت بنجاح"
-              ? ToastStates.SUCCESS
-              : ToastStates.ERROR);
+      // ShowToast(
+      //     msg: value.data["status"] == true &&
+      //             value.data["message"] == "عملية التحويل تمت بنجاح"
+      //         ? 'The payment was successful'
+      //         : '${value.data["message"]}',
+      //     states: value.data["status"] == true &&
+      //             value.data["message"] == "عملية التحويل تمت بنجاح"
+      //         ? ToastStates.SUCCESS
+      //         : ToastStates.ERROR);
 
       value.data["status"] == true &&
               value.data["message"] == "عملية التحويل تمت بنجاح"
-          ? Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => MyApp()))
-          : null;
+          ? AwesomeDialog(
+              dismissOnTouchOutside: false,
+              btnOkText: 'ok',
+              context: context,
+              dialogType: DialogType.noHeader,
+              btnOkColor: Color.fromRGBO(255, 99, 25, 1),
+              buttonsTextStyle:
+                  const TextStyle(color: Colors.white, fontSize: 20),
+              animType: AnimType.rightSlide,
+              title: 'The payment was successful',
+              btnOkOnPress: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => MyApp()));
+              },
+            ).show()
+          : AwesomeDialog(
+              dismissOnTouchOutside: false,
+              btnOkText: 'ok',
+              context: context,
+              dialogType: DialogType.noHeader,
+              btnOkColor: Color.fromRGBO(255, 99, 25, 1),
+              buttonsTextStyle:
+                  const TextStyle(color: Colors.white, fontSize: 20),
+              animType: AnimType.rightSlide,
+              title: '${value.data["message"]}',
+              btnOkOnPress: () {
+                Navigator.of(context).pop();
+              },
+            ).show();
     }).catchError((onError) {
       print('${onError}');
     });

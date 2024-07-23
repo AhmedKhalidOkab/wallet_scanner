@@ -158,7 +158,7 @@ class _WalletScreenState extends State<WalletScreen> {
               SizedBox(
                 height: 20.h,
               ),
-              gasContainer(name: 'Gasoline 92'),
+              gasContainer(name: 'Gasoline 95'),
             ],
           ),
         ),
