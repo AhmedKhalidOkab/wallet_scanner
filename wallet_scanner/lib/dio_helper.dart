@@ -106,22 +106,6 @@ class DioHelper {
   // }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class TextFormFiled extends StatelessWidget {
   TextFormFiled(
       {Key? key,
@@ -157,14 +141,15 @@ class TextFormFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(maxLength:maxLength ,
+    return TextFormField(
+      maxLength: maxLength,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
       readOnly: readOnly ?? false,
-      cursorHeight: 15.sp,
+      // cursorHeight: 15.sp,
       controller: controller,
       obscureText: obscureText!,
-      cursorColor:  Color.fromRGBO(255, 99, 25, 1),
+      cursorColor: Color.fromRGBO(255, 99, 25, 1),
       keyboardType: textInputType,
       validator: (value) => validator(value),
       maxLines: maxLines,
@@ -186,19 +171,23 @@ class TextFormFiled extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.sp),
-          borderSide: BorderSide(color: Color.fromRGBO(231, 231, 230, 1), width: 1.sp),
+          borderSide:
+              BorderSide(color: Color.fromRGBO(231, 231, 230, 1), width: 1.sp),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.sp),
-          borderSide: BorderSide(color: Color.fromRGBO(231, 231, 230, 1), width: 1.sp),
+          borderSide:
+              BorderSide(color: Color.fromRGBO(231, 231, 230, 1), width: 1.sp),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.sp),
-          borderSide: BorderSide(color: Color.fromRGBO(255, 99, 25, 1), width: 1.sp),
+          borderSide:
+              BorderSide(color: Color.fromRGBO(255, 99, 25, 1), width: 1.sp),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.sp),
-          borderSide: BorderSide(color: Color.fromRGBO(231, 231, 230, 1), width: 1.sp),
+          borderSide:
+              BorderSide(color: Color.fromRGBO(231, 231, 230, 1), width: 1.sp),
         ),
       ),
     );

@@ -96,7 +96,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Client Name :',
+                      'Client Name : ',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.sp,
@@ -129,7 +129,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Balance :',
+                      'Wallet : ',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.sp,
@@ -169,11 +169,17 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget gasContainer({String? name}) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => TransactionScreen(
-                  id: widget.id,
-                  name: name,
-                )));
+        if (widget.balance < 1) {
+          ShowToast(
+              msg: 'You do not have enough balance', states: ToastStates.ERROR);
+          return;
+        } else {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => TransactionScreen(
+                    id: widget.id,
+                    name: name,
+                  )));
+        }
       },
       child: Container(
         height: 40.h,

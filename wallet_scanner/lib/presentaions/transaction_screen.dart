@@ -17,11 +17,11 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
+  TextEditingController amountController = TextEditingController();
+
   bool loading = false;
   @override
   Widget build(BuildContext context) {
-    TextEditingController amountController = TextEditingController();
-
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
@@ -103,7 +103,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 textInputType: TextInputType.phone,
                 obscureText: false,
                 controller: amountController,
-                hintText: '3',
+                hintText: '25 SAR',
                 validator: () {},
               ),
               Spacer(),
@@ -190,7 +190,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
               animType: AnimType.rightSlide,
               title: 'The payment was successful',
               btnOkOnPress: () {
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (BuildContext context) => MyApp()));
               },
             ).show()

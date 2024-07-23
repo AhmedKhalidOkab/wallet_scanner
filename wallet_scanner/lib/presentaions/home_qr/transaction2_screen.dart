@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:wallet_scanner/main.dart';
 import 'package:wallet_scanner/presentaions/home_qr/scan_of_wallet_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class Transaction2Screen extends StatefulWidget {
   Transaction2Screen({super.key, required this.phone, required this.name});
   String phone;
@@ -80,103 +82,120 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
         ),
         body: Padding(
           padding: EdgeInsets.all(10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 150.h,
-              ),
-              Text(
-                "Enter the Total Amount ",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w700,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 150.h,
                 ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              TextFormFiled(
-                readOnly: false,
-                maxLines: 1,
-                minLines: 1,
-                textInputType: TextInputType.phone,
-                obscureText: false,
-                controller: amountController,
-                hintText: '3',
-                validator: () {},
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    pickImageFromGallery();
-                  });
-                },
-                child: Container(
-                  height: 50.h,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color.fromRGBO(255, 99, 25, 1), width: 1.w),
-                    borderRadius: BorderRadius.circular(10.r),
+                Text(
+                  "Enter the Total Amount ",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
                   ),
-                  child: image != null && image!.path != ''
-                      ? Image.file(image!)
-                      : Text(
-                          'Click here to take a photo',
-                          style: TextStyle(
-                            color: Color.fromRGBO(255, 99, 25, 1),
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
                 ),
-              ),
-              Spacer(),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    image!.path == '' || amountController.text == null
-                        ? ShowToast(
-                            msg: 'Enter the photo and amount',
-                            states: ToastStates.ERROR)
-                        : ScanToGetPoints(
-                            amount: amountController.text,
-                            image: image!.path,
-                            phone: widget.phone,
-                          );
-                  });
-                },
-                child: Container(
-                  height: 50.h,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
+                SizedBox(
+                  height: 10.h,
+                ),
+                TextFormFiled(
+                  readOnly: false,
+                  maxLines: 1,
+                  minLines: 1,
+                  textInputType: TextInputType.phone,
+                  obscureText: false,
+                  controller: amountController,
+                  hintText: '100 SAR',
+                  validator: () {},
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                if (image != null && image!.path.isNotEmpty)
+                  Container(
+                    height: 200.h,
+                    width: double.maxFinite,
+                    margin: EdgeInsets.only(bottom: 20.h),
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      color: Color.fromRGBO(255, 99, 25, 1)),
-                  child: loading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
-                      : Center(
-                          child: Text(
-                            'send',
-                            style: TextStyle(
+                      border: Border.all(
+                          color: Color.fromRGBO(255, 99, 25, 1), width: 1.w),
+                    ),
+                    child: Image.file(image!, fit: BoxFit.cover),
+                  ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      pickImageFromGallery();
+                    });
+                  },
+                  child: Container(
+                    height: 50.h,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Color.fromRGBO(255, 99, 25, 1), width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Upload Image',
+                        style: TextStyle(
+                          color: Color.fromRGBO(255, 99, 25, 1),
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // Spacer(),
+                SizedBox(
+                  height: 20.h,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      image!.path == '' || amountController.text == null
+                          ? ShowToast(
+                              msg: 'Enter the photo and amount',
+                              states: ToastStates.ERROR)
+                          : ScanToGetPoints(
+                              amount: amountController.text,
+                              image: image!.path,
+                              phone: widget.phone,
+                            );
+                    });
+                  },
+                  child: Container(
+                    height: 50.h,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        color: Color.fromRGBO(255, 99, 25, 1)),
+                    child: loading
+                        ? const Center(
+                            child: CircularProgressIndicator(
                               color: Colors.white,
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w800,
+                            ),
+                          )
+                        : Center(
+                            child: Text(
+                              'send',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
-                        ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -209,20 +228,51 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
         loading = false;
       });
 
-      ShowToast(
-          msg:
-              value.data["status"] == true && value.data["message"] == "Success"
-                  ? 'The payment was successful'
-                  : '${value.data["message"]}',
-          states:
-              value.data["status"] == true && value.data["message"] == "Success"
-                  ? ToastStates.SUCCESS
-                  : ToastStates.ERROR);
+      // ShowToast(
+      //     msg:
+      //         value.data["status"] == true && value.data["message"] == "Success"
+      //             ? 'The payment was successful'
+      //             : '${value.data["message"]}',
+      //     states:
+      //         value.data["status"] == true && value.data["message"] == "Success"
+      //             ? ToastStates.SUCCESS
+      //             : ToastStates.ERROR);
 
       value.data["status"] == true && value.data["message"] == "Success"
-          ? Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => MyApp()))
-          : null;
+          ? AwesomeDialog(
+              dismissOnTouchOutside: false,
+              btnOkText: 'ok',
+              context: context,
+              dialogType: DialogType.noHeader,
+              btnOkColor: Color.fromRGBO(255, 99, 25, 1),
+              buttonsTextStyle:
+                  const TextStyle(color: Colors.white, fontSize: 20),
+              animType: AnimType.rightSlide,
+              title: 'The points were added successfully',
+              btnOkOnPress: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (BuildContext context) => MyApp()));
+              },
+            ).show()
+          // Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(builder: (BuildContext context) => MyApp()))
+          : AwesomeDialog(
+              dismissOnTouchOutside: false,
+              btnOkText: 'ok',
+              context: context,
+              dialogType: DialogType.noHeader,
+              btnOkColor: Color.fromRGBO(255, 99, 25, 1),
+              buttonsTextStyle:
+                  const TextStyle(color: Colors.white, fontSize: 20),
+              animType: AnimType.rightSlide,
+              title: '${value.data["status"]}',
+              btnOkOnPress: () {
+                // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                //     builder: (BuildContext context) => MyApp()));
+              },
+            ).show();
+
+      ;
     }).catchError((onError) {
       print('${onError}');
       setState(() {
@@ -236,7 +286,10 @@ class _Transaction2ScreenState extends State<Transaction2Screen> {
     final pickedImage = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedImage != null) {
-      image = File(pickedImage.path);
+      setState(() {
+        image = File(pickedImage.path);
+      });
+      // image = File(pickedImage.path);
     }
   }
 }
